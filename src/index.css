@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+
+body{
+  margin: 0;
+}
+
+.intro_header{
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h6, p{
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+@media only screen and (max-width: 1000px) {
+  .socials_btns{
+    font-size: 2rem !important;
+  }
+  .star_rating{
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .socials_btns{
+    font-size: 3rem !important;
+  }
+  .section_divider{
+    margin-top: 30% !important;
+  }
+  .intro_section_divider{
+    margin-top: 60% !important;
+    margin-bottom: 80% !important;
+  }
+  .socials_divider{
+    margin-top: 20%;
+    margin-bottom: 20%;
+    text-align: center;
+  }
+  .about_section_divider{
+    margin-top: 20% !important;
+    margin-bottom: 20% !important;
+  }
+}
