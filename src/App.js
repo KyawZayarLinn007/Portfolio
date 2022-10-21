@@ -31,7 +31,7 @@ const App = () => {
         </Box>
 
         {/* about */}
-        <Box className="section_divider">
+        <Box className="section_divider" id="About">
           <About />
         </Box>
 
@@ -41,6 +41,7 @@ const App = () => {
             marginTop: "10%"
           }}
           className="section_divider"
+          id="Skills"
         >
           <Skills />
         </Box>
@@ -51,6 +52,7 @@ const App = () => {
             marginTop: "10%"
           }}
           className="section_divider"
+          id="Contact"
         >
           <Contact />
         </Box>
