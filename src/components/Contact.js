@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -6,15 +6,48 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import SendIcon from "@mui/icons-material/Send";
 
 const Contact = () => {
   const form = useRef();
+  let nameRef = useRef();
+  let emailRef = useRef();
+  let messageRef = useRef();
 
+  //success snackbar state
+  const [open, setOpen] = useState(false);
+  //error snackbar state
+  const [errorOpen, setErrorOpen] = useState(false);
+  //send email state
+  let [sendStatus, setSendStatus] = useState(false);
+
+  // success close function
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  // error close function
+  const handleErrorClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setErrorOpen(false);
+  }
+
+  // send email function
   const sendEmail = (e) => {
     e.preventDefault();
+
+    setSendStatus(true);
 
     emailjs
       .sendForm(
@@ -26,16 +59,49 @@ const Contact = () => {
       .then(
         (result) => {
           console.log(result.text);
+          setSendStatus(false);
+          nameRef.current.value = "";
+          emailRef.current.value = "";
+          messageRef.current.value = "";
+          setOpen(true);
         },
         (error) => {
           console.log(error.text);
+          setSendStatus(false);
+          nameRef.current.value = "";
+          emailRef.current.value = "";
+          messageRef.current.value = "";
         }
       );
   };
 
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   return (
     <>
       <Typography variant="h2">Contact</Typography>
+
+      {/* success snackbar */}
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right"
+      }}>
+        <Alert onClose={handleClose} severity="success">
+          Email successfully sent 🥳!
+        </Alert>
+      </Snackbar>
+
+      {/* error snackbar */}
+      <Snackbar open={errorOpen} autoHideDuration={6000} onClose={handleErrorClose} anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right"
+      }}>
+        <Alert onClose={handleErrorClose} severity="error">
+          Error occured ❌!
+        </Alert>
+      </Snackbar>
 
       {/* wrapper grid */}
       <Grid
@@ -83,9 +149,9 @@ const Contact = () => {
             <form ref={form} onSubmit={sendEmail}>
               <Stack direction="row" spacing={6}>
                 {/* name field */}
-                <TextField id="user_name" name="user_name" label="Name" variant="standard" />
+                <TextField id="user_name" name="user_name" label="Name" variant="standard" required inputRef={nameRef} />
                 {/* email field */}
-                <TextField id="user_email" name="user_email" label="Email" variant="standard" />
+                <TextField id="user_email" name="user_email" label="Email" variant="standard" required type="email" inputRef={emailRef} />
               </Stack>
 
               {/* message field */}
@@ -101,12 +167,14 @@ const Contact = () => {
                   rows={4}
                   multiline
                   sx={{ width: "415px" }}
+                  required
+                  inputRef={messageRef}
                 />
               </Stack>
 
               {/* send btn */}
               <Button variant="contained" endIcon={<SendIcon />} type="submit">
-                Send
+                { sendStatus ? "Sending..." : "Send" }
               </Button>
             </form>
           </Box>

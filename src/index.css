@@ -12,6 +12,10 @@ h1, h2, h6, p{
   font-family: 'Montserrat', sans-serif !important;
 }
 
+.MuiAlert-message{
+  font-size: 1rem;
+}
+
 @media only screen and (max-width: 1000px) {
   .socials_btns{
     font-size: 2rem !important;
