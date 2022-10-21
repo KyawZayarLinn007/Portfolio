@@ -76,7 +76,7 @@ function Navbar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            <a onClick={toTheTop}>KZL</a>
+            <a onClick={toTheTop} className="logo">KZL</a>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
